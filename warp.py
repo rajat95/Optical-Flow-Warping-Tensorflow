@@ -163,11 +163,8 @@ if __name__ == "__main__":
         sess.run(init)
 
         output = build_grid(a, flow, 436, 1024)
-        out = sess.run([output], feed_dict = {a:img, flow_vec:flow})
-        print out.max()
+        out = sess.run(output, feed_dict = {a:img, flow_vec:flow})
         out = np.clip(out,0,255).astype('uint8')
+#        print out.shape
         im = Image.fromarray(out[0].astype('uint8'))
         im.save('output.jpg') 
-
-
-
