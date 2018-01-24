@@ -8,6 +8,7 @@ import matplotlib.colors as cl
 import matplotlib.pyplot as plt
 # WARNING: this will work on little-endian architectures (eg Intel x86) only!
 
+#warp using scipy
 def warp_image(im, flow):
     """
     Use optical flow to warp image to the next
@@ -87,7 +88,7 @@ def get_pixel_value(img, x, y):
 
     return tf.gather_nd(img, indices)
 
-def build_grid(img, flow, H, W):
+def tf_warp(img, flow, H, W):
 #    H = 256
 #    W = 256
     x,y = tf.meshgrid(tf.range(W), tf.range(H))
@@ -162,7 +163,7 @@ if __name__ == "__main__":
         init = tf.global_variables_initializer()
         sess.run(init)
 
-        output = build_grid(a, flow, 436, 1024)
+        output = tf_warp(a, flow, 436, 1024)
         out = sess.run(output, feed_dict = {a:img, flow_vec:flow})
         out = np.clip(out,0,255).astype('uint8')
 #        print out.shape
